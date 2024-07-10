@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { MemberController } from 'src/application/member/member.controller';
+import { MemberController } from 'src/application/member/member-controller/member.controller';
 import { MemberRepository } from './repositories/member-repository';
 import { PrismaModule } from 'src/infrastructure/database/prisma.module';
 import { MemberService } from './services/member/member.service';
@@ -12,4 +12,4 @@ import { MemberService } from './services/member/member.service';
     MemberService
   ]
 })
-export class MemberModule {}
+export class MemberModule { }

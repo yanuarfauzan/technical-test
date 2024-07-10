@@ -42,6 +42,7 @@ model Book {
   stock        Int        @db.Int
   status       BookStatus
   borrowedDate DateTime?  @db.Timestamp()
+  dueDate      DateTime?  @db.Timestamp()
   memberId     String?    @db.Char(36)
   member       Member?    @relation(fields: [memberId], references: [id])
 
