@@ -32,7 +32,6 @@ export class MemberController {
     })
     async getAllMember(): Promise<ResponseDto<MemberDto[]>> {
         const members = await this.memberService.getAllMember();
-        console.info(members)
         return {
             statusCode: HttpStatus.OK,
             message: 'get all member success',

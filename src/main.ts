@@ -24,7 +24,7 @@ async function bootstrap() {
   const swaggerUiOptions = {
     explorer: true,
   };
-  app.use('/', swaggerUi.serve, swaggerUi.setup(document, swaggerUiOptions));
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(document, swaggerUiOptions));
 
   await app.listen(3000);
 }

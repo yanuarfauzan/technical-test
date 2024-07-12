@@ -5,7 +5,7 @@ import { ResponseDto } from 'src/application/shared/dto/response-dto';
 import { BookService } from '../../../domain/book/services/book.service';
 
 @ApiTags('Check the book')
-@Controller('api/book')
+@Controller('/api/book')
 export class BookController {
     constructor(private bookService: BookService) { }
 
@@ -31,6 +31,7 @@ export class BookController {
     })
     async getAllBook(): Promise<ResponseDto<any>> {
         const books = await this.bookService.getAllBook();
+        console.info(books)
         return {
             statusCode: HttpStatus.OK,
             message: 'get all book success',
