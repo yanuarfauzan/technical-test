@@ -5,7 +5,7 @@ import { MemberService } from '../../../domain/member/services/member.service';
 import { MemberDto } from '../member-dto/member-dto';
 import { RequestBookDto } from '../request-book-dto/request-book-dto';
 
-@ApiTags('Members')
+@ApiTags('Member check, borrow and return book')
 @Controller('/api/member')
 export class MemberController {
     constructor(private memberService: MemberService) { }
