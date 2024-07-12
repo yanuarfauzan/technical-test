@@ -1,0 +1,377 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/book/get-all-book": {
+      "get": {
+        "operationId": "BookController_getAllBook",
+        "summary": "(Shows all existing books and quantities, Books that are being borrowed are not counted)",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Get all book success",
+            "example": {
+              "statusCode": 200,
+              "message": "Get all book success",
+              "data": [
+                {
+                  "code": "BK001",
+                  "title": "Book Title",
+                  "author": "Author Name",
+                  "stock": 10,
+                  "status": "AVAILABLE"
+                }
+              ]
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BookDto"
+                  }
+                },
+                "example": {
+                  "statusCode": 200,
+                  "message": "Get all book success",
+                  "data": [
+                    {
+                      "code": "BK001",
+                      "title": "Book Title",
+                      "author": "Author Name",
+                      "stock": 10,
+                      "status": "AVAILABLE"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Check the book"
+        ]
+      }
+    },
+    "/api/member/get-all-member": {
+      "get": {
+        "operationId": "MemberController_getAllMember",
+        "summary": "(Shows all existing members, The number of books being borrowed by each member)",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "get all member success",
+            "example": {
+              "statusCode": 200,
+              "message": "Get all member success",
+              "data": [
+                {
+                  "id": "af0472cf-3e04-11ef-a793-00090ffe0001",
+                  "code": "M001",
+                  "name": "John Doe",
+                  "status": "ACTIVE",
+                  "penalizedDate": null,
+                  "penaltyEndDate": null,
+                  "borrowedBooksCount": 1
+                }
+              ]
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MemberDto"
+                  }
+                },
+                "example": {
+                  "statusCode": 200,
+                  "message": "Get all member success",
+                  "data": [
+                    {
+                      "id": "af0472cf-3e04-11ef-a793-00090ffe0001",
+                      "code": "M001",
+                      "name": "John Doe",
+                      "status": "ACTIVE",
+                      "penalizedDate": null,
+                      "penaltyEndDate": null,
+                      "borrowedBooksCount": 1
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Members"
+        ]
+      }
+    },
+    "/api/member/borrow-book": {
+      "post": {
+        "operationId": "MemberController_borrowBook",
+        "summary": "(Members may not borrow more than 2 books, Borrowed books are not borrowed by other members, Member is currently not being penalized)",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestBookDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "borrow book success",
+            "example": {
+              "statusCode": 200,
+              "message": "Borrow book successfull",
+              "data": {
+                "memberId": "af0472xsd-3e04-11ef-a793-00090ffe0001",
+                "book": {
+                  "id": "af0472cf-3e04-11ef-a793-00090ffe0001",
+                  "code": "M001",
+                  "title": "Harry Potter",
+                  "stock": 0,
+                  "status": "BORROWED",
+                  "borrowedDate": "2024-07-11 10:07:56"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MemberDto"
+                  }
+                },
+                "example": {
+                  "statusCode": 200,
+                  "message": "Borrow book successfull",
+                  "data": {
+                    "memberId": "af0472xsd-3e04-11ef-a793-00090ffe0001",
+                    "book": {
+                      "id": "af0472cf-3e04-11ef-a793-00090ffe0001",
+                      "code": "M001",
+                      "title": "Harry Potter",
+                      "stock": 0,
+                      "status": "BORROWED",
+                      "borrowedDate": "2024-07-11 10:07:56"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Members"
+        ]
+      }
+    },
+    "/api/member/return-book": {
+      "post": {
+        "operationId": "MemberController_returnBook",
+        "summary": "(The returned book is a book that the member has borrowed, If the book is returned after more than 7 days, the member will be subject to a penalty. Member with penalty cannot able to borrow the book for 3 days)",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestBookDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "return book success",
+            "example": {
+              "statusCode": 200,
+              "message": "Return book successfull",
+              "data": {
+                "memberId": "af0472xsd-3e04-11ef-a793-00090ffe0001",
+                "book": {
+                  "id": "af0472cf-3e04-11ef-a793-00090ffe0001",
+                  "code": "M001",
+                  "title": "Harry Potter",
+                  "stock": 0,
+                  "status": "AVAILABLE",
+                  "borrowedDate": "2024-07-11 10:07:56"
+                },
+                "penalty": {
+                  "isPenalized": true,
+                  "penalizedDate": "2024-07-11",
+                  "penaltyEndDate": "2024-07-18",
+                  "reason": "Overdue return"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MemberDto"
+                  }
+                },
+                "example": {
+                  "statusCode": 200,
+                  "message": "Return book successfull",
+                  "data": {
+                    "memberId": "af0472xsd-3e04-11ef-a793-00090ffe0001",
+                    "book": {
+                      "id": "af0472cf-3e04-11ef-a793-00090ffe0001",
+                      "code": "M001",
+                      "title": "Harry Potter",
+                      "stock": 0,
+                      "status": "AVAILABLE",
+                      "borrowedDate": "2024-07-11 10:07:56"
+                    },
+                    "penalty": {
+                      "isPenalized": true,
+                      "penalizedDate": "2024-07-11",
+                      "penaltyEndDate": "2024-07-18",
+                      "reason": "Overdue return"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Members"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Demo API Technical Test",
+    "description": "Backend Technical Test",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "BookDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "JK-45",
+            "description": "The code of the book"
+          },
+          "title": {
+            "type": "string",
+            "example": "Harry Potter",
+            "description": "The title of the book"
+          },
+          "author": {
+            "type": "string",
+            "example": "J.K Rowling",
+            "description": "The author of the book"
+          },
+          "stock": {
+            "type": "number",
+            "example": 50,
+            "description": "The stock of the book"
+          },
+          "status": {
+            "type": "string",
+            "example": "AVAILABLE",
+            "description": "The status of the book"
+          },
+          "borrowedDate": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2022-01-01T00:00:00.000Z",
+            "description": "The borrowed date of the book"
+          }
+        },
+        "required": [
+          "code",
+          "title",
+          "author",
+          "stock",
+          "status",
+          "borrowedDate"
+        ]
+      },
+      "MemberDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "af042626-3e04-11ef-a793-00090ffe0001",
+            "description": "The id of the member"
+          },
+          "code": {
+            "type": "string",
+            "example": "M001",
+            "description": "The code of the member"
+          },
+          "name": {
+            "type": "string",
+            "example": "Yanuar",
+            "description": "The name of the member"
+          },
+          "status": {
+            "type": "string",
+            "example": "ACTIVE",
+            "enum": [
+              "ACTIVE",
+              "PENALTY"
+            ],
+            "description": "The status of the member"
+          },
+          "penalizedDate": {
+            "type": "string",
+            "example": "2024-07-15 2024-07-16",
+            "description": "The penalized date of the member"
+          },
+          "penaltyEndDate": {
+            "type": "string",
+            "example": "2024-07-15 2024-07-16",
+            "description": "The penalty end date of the member"
+          },
+          "borrowedBooksCount": {
+            "type": "number",
+            "example": 0,
+            "description": "The borrowed books of the member"
+          }
+        },
+        "required": [
+          "id",
+          "code",
+          "name",
+          "status",
+          "penalizedDate",
+          "penaltyEndDate",
+          "borrowedBooksCount"
+        ]
+      },
+      "RequestBookDto": {
+        "type": "object",
+        "properties": {
+          "memberId": {
+            "type": "string"
+          },
+          "bookId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "memberId",
+          "bookId"
+        ]
+      }
+    }
+  }
+}

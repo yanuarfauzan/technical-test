@@ -19,12 +19,13 @@ enum MemberStatus {
 }
 
 model Member {
-  id            String        @id @default(uuid()) @db.Char(36)
-  code          String        @unique
-  name          String        @db.VarChar(100)
-  status        MemberStatus?
-  penalizedDate String?       @db.VarChar(100)
-  Book          Book[]
+  id             String        @id @default(uuid()) @db.Char(36)
+  code           String        @unique
+  name           String        @db.VarChar(100)
+  status         MemberStatus?
+  penalizedDate  String?       @db.VarChar(100)
+  penaltyEndDate String?       @db.VarChar(100)
+  Book           Book[]
 
   @@map("members")
 }

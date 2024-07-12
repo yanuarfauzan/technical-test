@@ -4,8 +4,8 @@ import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './infrastructure/database/prisma.module';
 import { BookModule } from './domain/book/book.module';
 import { BookController } from './application/book/book-controller/book.controller';
-import { BookService } from './domain/book/services/book/book.service';
-import { MemberService } from './domain/member/services/member/member.service';
+import { BookService } from './domain/book/services/book.service';
+import { MemberService } from './domain/member/services/member.service';
 import { MemberRepository } from './domain/member/repositories/member-repository';
 import { BookRepository } from './domain/book/repositories/book-repository/book-repository';
 @Module({

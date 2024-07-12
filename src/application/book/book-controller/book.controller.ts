@@ -1,42 +1,35 @@
 import { Controller, Get, HttpStatus } from '@nestjs/common';
-import { BookService } from 'src/domain/book/services/book/book.service';
 import { BookDto } from '../book-dto/book-dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ResponseDto } from 'src/application/shared/dto/response-dto';
-import { MemberDto } from 'src/application/member/member-dto/member-dto';
+import { BookService } from '../../../domain/book/services/book.service';
 
-@ApiTags('Books')
-@Controller('api/books')
+@ApiTags('Check the book')
+@Controller('api/book')
 export class BookController {
     constructor(private bookService: BookService) { }
 
     @Get('get-all-book')
-    @ApiOperation({ summary: 'Get All Books' })
-    @ApiResponse({status: 200, type: [BookDto], description: 'Get all book success',
+    @ApiOperation({ 
+        summary: '(Shows all existing books and quantities, Books that are being borrowed are not counted)' 
+    })
+    @ApiResponse({
+        status: 200, type: [BookDto], description: 'Get all book success',
         example: {
-                statusCode: 200,
-                message: 'Get all book success',
-                data: [
-                    {
-                        code: 'BK001',
-                        title: 'Book Title',
-                        author: 'Author Name',
-                        stock: 10,
-                        status: 'AVAILABLE',
-                        borrowedDate: null,
-                        memberId: 'af042626-3e04-11ef-a793-00090ffe0001',
-                        member: {
-                            id: 'af042626-3e04-11ef-a793-00090ffe0001',
-                            code: 'M001',
-                            name: 'John Doe',
-                            status: 'ACTIVE',
-                            penalizedDate: null
-                        },
-                    },
-                ],
+            statusCode: 200,
+            message: 'Get all book success',
+            data: [
+                {
+                    code: 'BK001',
+                    title: 'Book Title',
+                    author: 'Author Name',
+                    stock: 10,
+                    status: 'AVAILABLE',
+                },
+            ],
         },
     })
-    async getAllBook(): Promise<ResponseDto<BookDto[]>> {
+    async getAllBook(): Promise<ResponseDto<any>> {
         const books = await this.bookService.getAllBook();
         return {
             statusCode: HttpStatus.OK,

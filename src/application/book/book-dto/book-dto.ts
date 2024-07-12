@@ -1,5 +1,4 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { MemberDto } from "src/application/member/member-dto/member-dto";
 
 export class BookDto {
     @ApiProperty({ example: "JK-45", description: "The code of the book" })
@@ -14,9 +13,4 @@ export class BookDto {
     status: string;
     @ApiProperty({ example: "2022-01-01T00:00:00.000Z", description: "The borrowed date of the book" })
     borrowedDate: Date;
-    @ApiProperty({ example: "af042626-3e04-11ef-a793-00090ffe0001", description: "The member id who borrowed the book" })
-    memberId: string;
-    @ApiProperty()
-    member: MemberDto
-
 }
